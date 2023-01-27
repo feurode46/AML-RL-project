@@ -1,4 +1,8 @@
-Using stable baselines 3 PPO, evaluate_policy:
+Using stable baselines 3 PPO, evaluate_policy, 50 eps:
     Source env: 
     - 100k: (186.59382437467576, 79.660918110046)
-    
+    - 1M: (1626.765311331749, 167.70437964599995)
+    Source-Target environment results:
+    - 1M: (897.5961082291603, 183.2011613174796)
+    Target-Target environment results:
+    - 1M: (1663.9214312088488, 175.4497610749047)

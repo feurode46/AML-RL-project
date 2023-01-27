@@ -19,24 +19,43 @@ def main():
 
     # - train a policy with stable-baselines3 on source env
     env = DummyVecEnv([lambda: env])
-    PPO_path = os.path.join("training", "models", "PPO_1M")        
-    model = PPO("MlpPolicy", env, verbose=1)
-    # if os.path.exists("training/models/PPO_1M.zip"):
-    #     print("el wiwi")
-    #     model.load("training/models/PPO_1M.zip")
-    # else:
-    print("file not found. training...")
-    model.learn(total_timesteps=1000000)
-    model.save(PPO_path)
-    print("Source environment results:")
-    print(evaluate_policy(model, env, n_eval_episodes=30, render=True))
+
     target_env = gym.make('CustomHopper-target-v0')
     print('State space:', target_env.observation_space)  # state-space
     print('Action space:', target_env.action_space)  # action-space
     print('Dynamics parameters:', target_env.get_parameters())  # masses of each link of the Hopper
     target_env = DummyVecEnv([lambda: target_env])
-    print("Target environment results:")
-    print(evaluate_policy(model, target_env, n_eval_episodes=30, render=False))
+
+    PPO_path = os.path.join("training", "models", "PPO_1M")  
+    PPO_target_path = os.path.join("training", "models", "PPO_TARGET_1M")  
+
+    print("--- TRAIN PPO ON SOURCE ENVIRONMENT --- ")      
+    if os.path.exists("training/models/PPO_1M.zip"):
+        print("Found source model!")
+        model = PPO.load("training/models/PPO_1M", env=env)
+    else:
+        print("source model file not found. training...")
+        model = PPO("MlpPolicy", env, verbose=1)
+        model.learn(total_timesteps=1000000)
+        model.save(PPO_path)
+    print("--- TRAIN PPO ON TARGET ENVIRONMENT --- ")      
+    if os.path.exists("training/models/PPO_TARGET_1M.zip"):
+        print("Found target model!")
+        model_target = PPO.load("training/models/PPO_TARGET_1M", env=env)
+    else:
+        print("target model file not found. training...")
+        model_target = PPO("MlpPolicy", target_env, verbose=1)
+        model_target.learn(total_timesteps=1000000)
+        model_target.save(PPO_target_path)
+    
+    print("Source-Source environment results:")
+    print(evaluate_policy(model, env, n_eval_episodes=50, render=False))
+    
+    print("Source-Target environment results:")
+    print(evaluate_policy(model, target_env, n_eval_episodes=50, render=False))
+
+    print("Target-Target environment results:")
+    print(evaluate_policy(model_target, target_env, n_eval_episodes=50, render=False))
 
     env.close()
     # - test the policy with stable-baselines3 on <source,target> envs
