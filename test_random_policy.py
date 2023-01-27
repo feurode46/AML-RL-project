@@ -12,7 +12,7 @@ import gym
 from env.custom_hopper import *
 
 def main():
-    render = False
+    render = True
 
     # env = gym.make('CustomHopper-source-v0')  # [2.53429174 3.92699082 2.71433605 5.0893801 ]
     # env = gym.make('CustomHopper-target-v0')  # [3.53429174 3.92699082 2.71433605 5.0893801 ] 
@@ -39,7 +39,7 @@ def main():
 
             if render:
                 env.render()
-
+    env.close()
 
 if __name__ == '__main__':
     main()

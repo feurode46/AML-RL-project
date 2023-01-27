@@ -1,2 +1,3 @@
 gym==0.21
 stable-baselines3[extra]
+importlib-metadata==4.13.0
