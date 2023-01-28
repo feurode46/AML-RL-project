@@ -26,28 +26,29 @@ def main():
     print('Dynamics parameters:', target_env.get_parameters())  # masses of each link of the Hopper
     target_env = DummyVecEnv([lambda: target_env])
 
-    PPO_path = os.path.join("training", "models", "PPO_1M")  
-    PPO_target_path = os.path.join("training", "models", "PPO_TARGET_1M")  
+    PPO_path = os.path.join("training", "models", "PPO_100k")  
+    PPO_target_path = os.path.join("training", "models", "PPO_TARGET_100k")  
 
     print("--- TRAIN PPO ON SOURCE ENVIRONMENT --- ")      
-    if os.path.exists("training/models/PPO_1M.zip"):
+    if os.path.exists("training/models/PPO_100k.zip"):
         print("Found source model!")
-        model = PPO.load("training/models/PPO_1M", env=env)
+        model = PPO.load("training/models/PPO_100k", env=env)
     else:
         print("source model file not found. training...")
         model = PPO("MlpPolicy", env, verbose=1)
-        model.learn(total_timesteps=1000000)
+        model.learn(total_timesteps=100000)
         model.save(PPO_path)
     print("--- TRAIN PPO ON TARGET ENVIRONMENT --- ")      
-    if os.path.exists("training/models/PPO_TARGET_1M.zip"):
+    if os.path.exists("training/models/PPO_TARGET_100k.zip"):
         print("Found target model!")
-        model_target = PPO.load("training/models/PPO_TARGET_1M", env=env)
+        model_target = PPO.load("training/models/PPO_TARGET_100k", env=env)
     else:
         print("target model file not found. training...")
         model_target = PPO("MlpPolicy", target_env, verbose=1)
-        model_target.learn(total_timesteps=1000000)
+        model_target.learn(total_timesteps=100000)
         model_target.save(PPO_target_path)
-    
+
+
     print("Source-Source environment results:")
     print(evaluate_policy(model, env, n_eval_episodes=50, render=False))
     
@@ -55,10 +56,9 @@ def main():
     print(evaluate_policy(model, target_env, n_eval_episodes=50, render=False))
 
     print("Target-Target environment results:")
-    print(evaluate_policy(model_target, target_env, n_eval_episodes=50, render=False))
-
+    # print(evaluate_policy(model_target, target_env, n_eval_episodes=50, render=False))
+    
     env.close()
-    # - test the policy with stable-baselines3 on <source,target> envs
 
 if __name__ == '__main__':
     main()

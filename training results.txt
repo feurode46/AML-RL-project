@@ -1,8 +1,34 @@
 Using stable baselines 3 PPO, evaluate_policy, 50 eps:
-    Source env: 
-    - 100k: (186.59382437467576, 79.660918110046)
+    Source-Source: 
+    - 100k: (1368.1087990665435, 67.52957451220202)
     - 1M: (1626.765311331749, 167.70437964599995)
-    Source-Target environment results:
-    - 1M: (897.5961082291603, 183.2011613174796)
-    Target-Target environment results:
+    Source-Target:
+    - 100k: (1076.4811071658135, 193.69725491452624) -- 79% of source performance 
+    - 1M: (897.5961082291603, 183.2011613174796) -- 55% of source performance
+    Target-Target:
     - 1M: (1663.9214312088488, 175.4497610749047)
+
+
+Randomized parameters, PPO, evaluate_policy, 50 eps:
+    run #1 *** HYPERPARAMS: rand_proportion = 0.5, random_environments = 10
+    Source-Source:
+    - 100k: (548.0931036317348, 57.27655835539504)
+    Source-Target:
+    - 100k: (489.0030889725685, 85.3129840872501) -- 89% of source performance
+
+    run #2 *** HYPERPARAMS: rand_proportion = 0.5, random_environments = 100
+    Source-Source:
+    - 100k: (725.6857441926003, 64.52086286392995)
+    Source-Target:
+    - 100k: (741.8495341300965, 83.90926507788608) -- 102% of source performance
+
+
+
+
+# NOTES:
+
+- Training normale: divario fra source e target in proporzione aumenta da 100k a 1M,
+                    performance non commisurata all'incremento temporale, andrebbe fatta ricerca su diminishing returns;
+
+- Training randomizzato: performance in generale peggiore (perdita del 47% su 100k timesteps)
+                         performance MIGLIORE su target che su source con 100 set di parametri diversi! (1k timestep per set di parametri)
