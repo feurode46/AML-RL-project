@@ -184,3 +184,8 @@ class MujocoEnv(gym.Env):
             self.sim.data.qpos.flat,
             self.sim.data.qvel.flat
         ])
+    
+    # custom methods for training
+    def set_mass(self, idx, value):
+        self.sim.model.body_mass[idx] = value
+        return self.sim.model.body_mass[idx]
