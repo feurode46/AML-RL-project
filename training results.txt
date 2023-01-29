@@ -8,6 +8,23 @@ Using stable baselines 3 PPO, evaluate_policy, 50 eps:
     Target-Target:
     - 1M: (1663.9214312088488, 175.4497610749047)
 
+Using stable baselines 3 TRPO, evaluate_policy, 50 eps:
+    Source-Source: 
+    - 100k: (740.9660753071308, 199.9041695662715)
+    Source-Target:
+    - 100k: (998.7085730493069, 251.56421254364858)
+    Target-Target:
+    - 100k: (1098.9621848917006, 28.238007075024115)
+
+
+Using stable baselines 3 SAC, evaluate_policy, 50 eps:
+    Source-Source: 
+    - 100k: (718.9373683524132, 6.659602571981374)
+    Source-Target:
+    - 100k: (670.1215433526039, 18.499889161314453)
+    Target-Target:
+    - 100k: (550.82094835639, 32.04543177043602)
+
 
 Randomized parameters, PPO, evaluate_policy, 50 eps:
     run #1 *** HYPERPARAMS: rand_proportion = 0.5, random_environments = 10
