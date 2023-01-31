@@ -10,12 +10,11 @@ Using stable baselines 3 PPO, evaluate_policy, 50 eps:
 
 Using stable baselines 3 TRPO, evaluate_policy, 50 eps:
     Source-Source: 
-    - 100k: (740.9660753071308, 199.9041695662715)
+    - 100k: (953.0968360042572, 20.328279055392514)
     Source-Target:
-    - 100k: (998.7085730493069, 251.56421254364858)
+    - 100k: (710.8810938549042, 3.7088599622968386)
     Target-Target:
-    - 100k: (1098.9621848917006, 28.238007075024115)
-
+    - 100k: (1170.6548345136644, 15.236594783089435)
 
 Using stable baselines 3 SAC, evaluate_policy, 50 eps:
     Source-Source: 
