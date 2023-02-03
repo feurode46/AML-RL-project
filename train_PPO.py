@@ -27,26 +27,26 @@ def main():
     print('Dynamics parameters:', target_env.get_parameters())  # masses of each link of the Hopper
     target_env = DummyVecEnv([lambda: target_env])
 
-    PPO_path = os.path.join("training", "models", "PPO_100k")  
-    PPO_target_path = os.path.join("training", "models", "PPO_TARGET_100k")  
+    PPO_path = os.path.join("training", "models", "PPO_500k")  
+    PPO_target_path = os.path.join("training", "models", "PPO_TARGET_500k")  
 
     print("--- TRAIN PPO ON SOURCE ENVIRONMENT --- ")      
-    if os.path.exists("training/models/PPO_100k.zip"):
+    if os.path.exists("training/models/PPO_500k.zip"):
         print("Found source model!")
-        model = PPO.load("training/models/PPO_100k", env=env)
+        model = PPO.load("training/models/PPO_500k", env=env)
     else:
         print("source model file not found. training...")
         model = PPO("MlpPolicy", env, verbose=1)
-        model.learn(total_timesteps=100000)
+        model.learn(total_timesteps=500000)
         model.save(PPO_path)
     print("--- TRAIN PPO ON TARGET ENVIRONMENT --- ")      
-    if os.path.exists("training/models/PPO_TARGET_100k.zip"):
+    if os.path.exists("training/models/PPO_TARGET_500k.zip"):
         print("Found target model!")
-        model_target = PPO.load("training/models/PPO_TARGET_100k", env=env)
+        model_target = PPO.load("training/models/PPO_TARGET_500k", env=env)
     else:
         print("target model file not found. training...")
         model_target = PPO("MlpPolicy", target_env, verbose=1)
-        model_target.learn(total_timesteps=100000)
+        model_target.learn(total_timesteps=500000)
         model_target.save(PPO_target_path)
 
 
