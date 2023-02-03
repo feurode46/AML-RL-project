@@ -29,18 +29,18 @@ source_pixel_env = PixelObservationWrapper(source_env)
 source_grayscale_env = Grayscale(source_pixel_env)
 # print(source_grayscale_env.observation_space)
 # The source_grayscale_env observation space is a Box object with shape (500, 500)
-# meaning that the observation is a 2D grayscale image with 500 rows and 500 columns
+# => This observation space is a 2D grayscale image with 500 rows and 500 columns
 
 source_resized_env = Resize(source_grayscale_env, 224, 224)
 # print(source_resized_env.observation_space)
 # The source_resized_env observation space is a Box object with shape (224, 224)
-# meaning that the observation is a 2D grayscale image with 224 rows and 224 columns
+# => This observation space is a 2D grayscale image with 224 rows and 224 columns
 
 source_frame_stack_env = StackFrames(source_resized_env, 4)
 # print(source_frame_stack_env.observation_space)
 # Creates an environment source_frame_stack_env that stacks 4 consecutive frames from the resized_env environment 
 # and returns the resulting 4-frame stack as a SINGLE observation
 # The source_frame_stack_env observation space is a Box object with shape (224, 224, 4)
-# meaning that the observation space is the the result of stacking 4 grayscale frames of resized environment
+# => This observation space is a the the result of stacking 4 grayscale frames of the resized environment
 
 
