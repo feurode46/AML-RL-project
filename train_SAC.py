@@ -27,26 +27,26 @@ def main():
     print('Dynamics parameters:', target_env.get_parameters())  # masses of each link of the Hopper
     target_env = DummyVecEnv([lambda: target_env])
 
-    SAC_path = os.path.join("training", "models", "SAC_100k")  
-    SAC_target_path = os.path.join("training", "models", "SAC_TARGET_100k")  
+    SAC_path = os.path.join("training", "models", "SAC_500k")  
+    SAC_target_path = os.path.join("training", "models", "SAC_TARGET_500k")  
 
     print("--- TRAIN SAC ON SOURCE ENVIRONMENT --- ")      
-    if os.path.exists("training/models/SAC_100k.zip"):
+    if os.path.exists("training/models/SAC_500k.zip"):
         print("Found source model!")
-        model = SAC.load("training/models/SAC_100k", env=env)
+        model = SAC.load("training/models/SAC_500k", env=env)
     else:
         print("source model file not found. training...")
         model = SAC("MlpPolicy", env, verbose=1)
-        model.learn(total_timesteps=100000)
+        model.learn(total_timesteps=500000)
         model.save(SAC_path)
     print("--- TRAIN SAC ON TARGET ENVIRONMENT --- ")      
-    if os.path.exists("training/models/SAC_TARGET_100k.zip"):
+    if os.path.exists("training/models/SAC_TARGET_500k.zip"):
         print("Found target model!")
-        model_target = SAC.load("training/models/SAC_TARGET_100k", env=env)
+        model_target = SAC.load("training/models/SAC_TARGET_500k", env=env)
     else:
         print("target model file not found. training...")
         model_target = SAC("MlpPolicy", target_env, verbose=1)
-        model_target.learn(total_timesteps=100000)
+        model_target.learn(total_timesteps=500000)
         model_target.save(SAC_target_path)
 
 
