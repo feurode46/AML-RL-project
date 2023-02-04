@@ -3,6 +3,7 @@
    Algorithm used: PPO (for the time being)
 """
 import gym
+# from gym.wrappers.pixel_observation import PixelObservationWrapper
 from env.custom_hopper import *
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
