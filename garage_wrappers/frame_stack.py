@@ -98,4 +98,4 @@ class StackFrames(gym.Wrapper):
         new_observation, reward, done, info = self.env.step(action)
         self._frames.append(new_observation)
 
-        return self._stack_frames(), reward, done, 
+        return self._stack_frames(), reward, done, info

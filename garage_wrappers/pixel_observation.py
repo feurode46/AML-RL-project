@@ -1,11 +1,7 @@
 """Pixel observation wrapper for gym.Env."""
-# yapf: disable
 import gym
 from gym.wrappers.pixel_observation import (
     PixelObservationWrapper as gymWrapper)
-
-# yapf: enable
-
 
 class PixelObservationWrapper(gym.Wrapper):
     """Pixel observation wrapper for obtaining pixel observations.

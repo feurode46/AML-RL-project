@@ -1,11 +1,13 @@
 import gym
-import numpy as np
 from env.custom_hopper import *
 from garage_wrappers.pixel_observation      import PixelObservationWrapper
 from garage_wrappers.gray_scale_observation import Grayscale
 from garage_wrappers.resize_observation     import Resize
 from garage_wrappers.frame_stack            import StackFrames
-
+from garage_wrappers.pytorch_observation    import ImageToPyTorch
+from custom_cnn                             import CustomCNN
+from stable_baselines3 import PPO
+from stable_baselines3.common.callbacks import CheckpointCallback
 
 source_env = gym.make('CustomHopper-source-v0')
 target_env = gym.make('CustomHopper-target-v0')
@@ -41,6 +43,29 @@ source_frame_stack_env = StackFrames(source_resized_env, 4)
 # Creates an environment source_frame_stack_env that stacks 4 consecutive frames from the resized_env environment 
 # and returns the resulting 4-frame stack as a SINGLE observation
 # The source_frame_stack_env observation space is a Box object with shape (224, 224, 4)
-# => This observation space is a the the result of stacking 4 grayscale frames of the resized environment
+# => This observation space is the result of stacking 4 grayscale frames of the resized environment
+
+source_pyTorch_env = ImageToPyTorch(source_frame_stack_env)
+# print(source_pyTorch_env.observation_space)
+# The source_pyTorch_env observation space is a Box object with shape (4, 224, 224)
+# => This observation space is the same as source_frame_stack_env, but with inverted dimensions
+# from (height, width, channels) to (channels, height, width)
+
+target_pixel_env = PixelObservationWrapper(target_env)
+target_grayscale_env = Grayscale(target_pixel_env)
+target_resized_env = Resize(target_grayscale_env, 224, 224)
+target_frame_stack_env = StackFrames(target_resized_env, 4)
+target_pyTorch_env = ImageToPyTorch(target_frame_stack_env)
+
+# Taken from https://stable-baselines3.readthedocs.io/en/master/guide/custom_policy.html
+policy_kwargs = dict(
+    features_extractor_class=CustomCNN,
+    features_extractor_kwargs=dict(features_dim = 128),
+)
+
+model = PPO("CnnPolicy", source_pyTorch_env, policy_kwargs = policy_kwargs, verbose = 1, batch_size = 32, learning_rate = 0.01)
+trained_model = model.learn(total_timesteps=1000000, progress_bar=True)
+trained_model.save(f"./training/models/Vision_100K_example")
+
 
 
