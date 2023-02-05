@@ -38,7 +38,7 @@ source_grayscale_env = Grayscale(source_pixel_env)
 # The source_grayscale_env observation space is a Box object with shape (500, 500)
 # => This observation space is a 2D grayscale image with 500 rows and 500 columns
 
-source_resized_env = Resize(source_grayscale_env, 84, 84)
+source_resized_env = Resize(source_grayscale_env, 224, 224)
 # print(source_resized_env.observation_space)
 # The source_resized_env observation space is a Box object with shape (64, 64)
 # => This observation space is a 2D grayscale image with 64 rows and 64 columns
@@ -61,11 +61,11 @@ source_pyTorch_env = ImageToPyTorch(source_frame_stack_env)
 # => This observation space is the same as source_frame_stack_env, but with inverted dimensions
 # from (height, width, channels) to (channels, height, width)
 
-target_pixel_env = PixelObservationWrapper(target_env)
-target_grayscale_env = Grayscale(target_pixel_env)
-target_resized_env = Resize(target_grayscale_env, 64, 64)
-target_frame_stack_env = StackFrames(target_resized_env, 4)
-target_pyTorch_env = ImageToPyTorch(target_frame_stack_env)
+# target_pixel_env = PixelObservationWrapper(target_env)
+# target_grayscale_env = Grayscale(target_pixel_env)
+# target_resized_env = Resize(target_grayscale_env, 64, 64)
+# target_frame_stack_env = StackFrames(target_resized_env, 4)
+# target_pyTorch_env = ImageToPyTorch(target_frame_stack_env)
 
 # Taken from https://stable-baselines3.readthedocs.io/en/master/guide/custom_policy.html
 policy_kwargs = dict(
@@ -79,6 +79,6 @@ policy_kwargs = dict(
 # )
 
 source_env.enable_uniform_domain_randomization(rand_proportion = 50)
-model = PPO("CnnPolicy", source_pyTorch_env, policy_kwargs = policy_kwargs, verbose = 1, batch_size = 32, learning_rate = 0.0001)
+model = PPO("CnnPolicy", source_pyTorch_env, policy_kwargs = policy_kwargs, verbose = 1, batch_size = 32, learning_rate = 0.0003)
 trained_model = model.learn(total_timesteps=50000, progress_bar=True)
 trained_model.save(f"./training/models/Vision_500K_example")
