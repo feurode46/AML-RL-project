@@ -14,11 +14,11 @@ import utils
 
 def train_and_test(model_name, total_timesteps, rand_proportion_vector, eps_vector, resultsfile):
 
-    resultsfile.write(f"##### {model_name} #####\n")
+    resultsfile.write(f"\n##### {model_name} #####\n")
 
     for r in rand_proportion_vector:
         for rand_eps in eps_vector:
-            dest_path = os.path.join("training", "models", model_name + "_random_" + str(r) + "_eps_" + str(rand_eps) + "_.zip")
+            dest_path = os.path.join("training", "models", model_name + "_random_r_" + str(r) + "_eps_" + str(rand_eps) + "_.zip")
 
             source_env = gym.make('CustomHopper-source-v0')
             source_env.enable_uniform_domain_randomization(rand_proportion = r, rand_eps=rand_eps)
@@ -48,7 +48,7 @@ n_eps_vector = [1, 5, 10, 50]
 
 train_and_test("PPO_100k",  100000,     rand_proportion_vector, n_eps_vector, resultsfile )
 train_and_test("PPO_500k",  500000,     rand_proportion_vector, n_eps_vector, resultsfile )
-# train_and_test("PPO_1M",    1000000,    rand_proportion_vector, n_eps_vector, resultsfile )
+train_and_test("PPO_1M",    1000000,    rand_proportion_vector, n_eps_vector, resultsfile )
 
 
 

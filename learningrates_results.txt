@@ -1,0 +1,30 @@
+Source-Source environment results (learning rate = 0.001):
+(1722.932719860077, 57.8983441791438)
+Source-Target environment results (learning rate = 0.001):
+(1259.2674469041824, 94.05223763560737)
+Target-Target environment results (learning rate = 0.001):
+(934.1634464550018, 108.89925730110808)
+Source-Source environment results (learning rate = 0.0003):
+(1587.1182712602615, 5.163345891498248)
+Source-Target environment results (learning rate = 0.0003):
+(1310.0734300875663, 306.0698750113803)
+Target-Target environment results (learning rate = 0.0003):
+(1716.56875970006, 3.282127185652119)
+Source-Source environment results (learning rate = 0.0001):
+(1088.4754379034043, 196.6346383129712)
+Source-Target environment results (learning rate = 0.0001):
+(1342.4132365489006, 161.2122062119446)
+Target-Target environment results (learning rate = 0.0001):
+(1293.9465552115441, 125.74408974909667
+Source-Source environment results (learning rate = 1e-05):
+(354.1327296853066, 33.48926347434827)
+Source-Target environment results (learning rate = 1e-05):
+(372.1567868471146, 32.73378178601288)
+Target-Target environment results (learning rate = 1e-05):
+(177.7797190952301, 1.897823921252117)
+Source-Source environment results (learning rate = 1e-06):
+(52.444280782938, 2.243315210941412)
+Source-Target environment results (learning rate = 1e-06):
+(58.703134747743604, 3.1406421844885792)
+Target-Target environment results (learning rate = 1e-06):
+(57.96231892466545, 3.3142984794216646)
