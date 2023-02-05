@@ -4,8 +4,9 @@ from garage_wrappers.pixel_observation      import PixelObservationWrapper
 from garage_wrappers.gray_scale_observation import Grayscale
 from garage_wrappers.resize_observation     import Resize
 from garage_wrappers.frame_stack            import StackFrames
+from garage_wrappers.max_and_skip           import MaxAndSkip
 from garage_wrappers.pytorch_observation    import ImageToPyTorch
-from custom_cnn                             import CustomCNN
+from custom_cnn                             import CustomCNN, CustomVGG
 from resnet18                               import MyResNet18
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
@@ -47,8 +48,8 @@ source_resized_env = Resize(source_grayscale_env, 224, 224)
 # img, _, _, _ = source_resized_env.step(source_resized_env.action_space.sample())
 # plt.imshow(img, cmap="gray")
 # plt.show()
-
-source_frame_stack_env = StackFrames(source_resized_env, 4)
+source_frameskip_env = MaxAndSkip(source_resized_env, skip=4)
+source_frame_stack_env = StackFrames(source_frameskip_env, 4)
 # print(source_frame_stack_env.observation_space)
 # Creates an environment source_frame_stack_env that stacks 4 consecutive frames from the resized_env environment 
 # and returns the resulting 4-frame stack as a SINGLE observation
@@ -69,8 +70,8 @@ source_pyTorch_env = ImageToPyTorch(source_frame_stack_env)
 
 # Taken from https://stable-baselines3.readthedocs.io/en/master/guide/custom_policy.html
 policy_kwargs = dict(
-    features_extractor_class=CustomCNN,
-    features_extractor_kwargs=dict(features_dim = 128),
+    features_extractor_class=CustomCNN, # to use other model: CustomCNN
+    features_extractor_kwargs=dict(features_dim = 128), # was 128 in oldcnn
 )
 
 # policy_kwargs= dict(
@@ -81,4 +82,4 @@ policy_kwargs = dict(
 source_env.enable_uniform_domain_randomization(rand_proportion = 50)
 model = PPO("CnnPolicy", source_pyTorch_env, policy_kwargs = policy_kwargs, verbose = 1, batch_size = 32, learning_rate = 0.0003)
 trained_model = model.learn(total_timesteps=50000, progress_bar=True)
-trained_model.save(f"./training/models/Vision_500K_example")
+trained_model.save(f"./training/models/vision_vgg_attempt")

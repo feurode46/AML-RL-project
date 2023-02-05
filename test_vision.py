@@ -15,7 +15,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.evaluation import evaluate_policy
 import os
 
-model_name = "Vision_500K_example"
+model_name = "er_mejo"
 
 def main():
     env = gym.make('CustomHopper-source-v0')
