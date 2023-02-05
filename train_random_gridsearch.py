@@ -12,40 +12,43 @@ import utils
 
 
 
-def train_and_test(model_name, total_timesteps, rand_proportion_vector, resultsfile):
+def train_and_test(model_name, total_timesteps, rand_proportion_vector, eps_vector, resultsfile):
 
     resultsfile.write(f"##### {model_name} #####\n")
 
     for r in rand_proportion_vector:
-        dest_path = os.path.join("training", "models", model_name + "_random_" + str(r) + "_.zip")
+        for rand_eps in eps_vector:
+            dest_path = os.path.join("training", "models", model_name + "_random_" + str(r) + "_eps_" + str(rand_eps) + "_.zip")
 
-        source_env = gym.make('CustomHopper-source-v0')
-        source_env.enable_uniform_domain_randomization(rand_proportion = r, rand_eps=5)
-        source_env = DummyVecEnv([lambda: source_env])
+            source_env = gym.make('CustomHopper-source-v0')
+            source_env.enable_uniform_domain_randomization(rand_proportion = r, rand_eps=rand_eps)
+            source_env = DummyVecEnv([lambda: source_env])
 
-        model = PPO("MlpPolicy", source_env, verbose=1)
-        model.learn(total_timesteps = total_timesteps)
+            model = PPO("MlpPolicy", source_env, verbose=1)
+            model.learn(total_timesteps = total_timesteps)
 
-        target_env = gym.make('CustomHopper-target-v0')
-        target_env = DummyVecEnv([lambda: target_env])
+            target_env = gym.make('CustomHopper-target-v0')
+            target_env = DummyVecEnv([lambda: target_env])
 
-        resultsfile.write(f"Source-Source environment results (rand_prop={r}):\n")
-        result = evaluate_policy(model, source_env, n_eval_episodes=50, render=False)
-        resultsfile.write(str(result) + "\n")
+            resultsfile.write(f"Source-Source environment results (rand_prop={r}, rand_eps={rand_eps}):\n")
+            result = evaluate_policy(model, source_env, n_eval_episodes=50, render=False)
+            resultsfile.write(str(result) + "\n")
 
-        resultsfile.write(f"Source-Target environment results (rand_prop={r}):\n")
-        result2 = evaluate_policy(model, target_env, n_eval_episodes=50, render=False)
-        resultsfile.write(str(result2) + "\n")
+            resultsfile.write(f"Source-Target environment results (rand_prop={r}, rand_eps={rand_eps}):\n")
+            result2 = evaluate_policy(model, target_env, n_eval_episodes=50, render=False)
+            resultsfile.write(str(result2) + "\n")
 
-        model.save(dest_path)
-        source_env.close()
-        target_env.close()
+            model.save(dest_path)
+            source_env.close()
+            target_env.close()
 
-resultsfile = open("__gridsearch_results.txt", "a")
-rand_proportion_vector = [0.3, 0.5, 0.7, 0.9]
-train_and_test("PPO_100k",  100000,     rand_proportion_vector, resultsfile )
-train_and_test("PPO_500k",  500000,     rand_proportion_vector, resultsfile )
-train_and_test("PPO_1M",    1000000,    rand_proportion_vector, resultsfile )
+resultsfile = open("__gridsearch_results_new.txt", "a")
+rand_proportion_vector = [30, 50, 70]
+n_eps_vector = [1, 5, 10, 50]
+
+train_and_test("PPO_100k",  100000,     rand_proportion_vector, n_eps_vector, resultsfile )
+train_and_test("PPO_500k",  500000,     rand_proportion_vector, n_eps_vector, resultsfile )
+# train_and_test("PPO_1M",    1000000,    rand_proportion_vector, n_eps_vector, resultsfile )
 
 
 

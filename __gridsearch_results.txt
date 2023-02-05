@@ -49,3 +49,15 @@ Source-Source environment results (rand_prop=0.9):
 (1362.0279556250573, 176.60826699314208)
 Source-Target environment results (rand_prop=0.9):
 (1161.977841501236, 54.73068471562604)
+
+
+##### PPO_100k #####
+Source-Source environment results (rand_prop=0.3):
+(612.5210568356514, 72.31493463019504)
+Source-Target environment results (rand_prop=0.3):
+(599.5840139532089, 5.933508372062685)
+##### PPO_100k #####
+Source-Source environment results (rand_prop=30):
+(793.1835425329208, 119.18024697964383)
+Source-Target environment results (rand_prop=30):
+(627.6374289798737, 8.906573464930304)
