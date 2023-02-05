@@ -11,36 +11,55 @@ from .mujoco_env import MujocoEnv
 from scipy.stats import truncnorm
 
 class CustomHopper(MujocoEnv, utils.EzPickle):
+
     def __init__(self, domain=None):
         MujocoEnv.__init__(self, 4)
         utils.EzPickle.__init__(self)
 
         self.original_masses = np.copy(self.sim.model.body_mass[1:])    # Default link masses
+        
+        self.__enable_udr       = False
+        self.__rand_proportion  = None
+        self.__mass_intervals   = []
 
         if domain == 'source':  # Source environment has an imprecise torso mass (1kg shift)
             self.sim.model.body_mass[1] -= 1.0
 
+    def enable_uniform_domain_randomization(self, rand_proportion: int = 50):
+        self.__enable_udr       = True
+        self.__rand_proportion  = rand_proportion
+
+    def disable_uniform_domain_randomization(self):
+        self.__enable_udr        = False
 
     def set_random_parameters(self):
-        """Set random masses
-        TODO
-        """
-        self.set_parameters(*self.sample_parameters())
+        """Set random masses"""
+        self.set_parameters(self.sample_parameters())
 
     def sample_parameters(self):
-        """Sample masses according to a domain randomization distribution
-        TODO
-        """
-        return
+        """Sample masses according to a domain randomization distribution"""
+
+        if len(self.__mass_intervals) == 0:
+            i = 0
+            for mass in self.original_masses[1:]:
+                lower_bound = mass-(mass*self.__rand_proportion/100)
+                upper_bound = mass+(mass*self.__rand_proportion/100)
+                print(f"Range for mass {i+1}: [{lower_bound:.3f}, {upper_bound:.3f})")
+                i += 1
+                interval = [lower_bound, upper_bound]
+                self.__mass_intervals.append(interval)
+
+        masses = [np.random.uniform(interval[0], interval[1]) for interval in self.__mass_intervals]
+        return masses
 
     def get_parameters(self):
         """Get value of mass for each link"""
-        masses = np.array( self.sim.model.body_mass[1:] )
+        masses = np.array( self.sim.model.body_mass[2:] )
         return masses
 
     def set_parameters(self, task):
         """Set each hopper link's mass to a new value"""
-        self.sim.model.body_mass[1:] = task
+        self.sim.model.body_mass[2:] = task
 
     def step(self, a):
         """Step the simulation to the next timestep
@@ -72,6 +91,10 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
 
     def reset_model(self):
         """Reset the environment to a random initial state"""
+
+        if (self.__enable_udr):
+            self.set_random_parameters()
+
         qpos = self.init_qpos + self.np_random.uniform(low=-.005, high=.005, size=self.model.nq)
         qvel = self.init_qvel + self.np_random.uniform(low=-.005, high=.005, size=self.model.nv)
         self.set_state(qpos, qvel)
@@ -82,8 +105,6 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         self.viewer.cam.distance = self.model.stat.extent * 0.75
         self.viewer.cam.lookat[2] = 1.15
         self.viewer.cam.elevation = -20
-
-
 
 """
     Registered environments

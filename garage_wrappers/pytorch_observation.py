@@ -26,7 +26,7 @@ class ImageToPyTorch(gym.ObservationWrapper):
         '''
         frame = np.swapaxes(observation, 2, 0)[None,:,:,:]
         # "swapaxes" -> Swaps the 2nd and 0th axes of the observation numpy array, 
-        # ffectively transforming it from (height, width, channels) shape 
+        # effectively transforming it from (height, width, channels) shape 
         # to (channels, height, width) shape
         # +
         # "[None,:,:,:]" -> Adds a new dimension of size 1 at the beginning of the array. 

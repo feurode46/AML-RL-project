@@ -6,11 +6,15 @@ from garage_wrappers.resize_observation     import Resize
 from garage_wrappers.frame_stack            import StackFrames
 from garage_wrappers.pytorch_observation    import ImageToPyTorch
 from custom_cnn                             import CustomCNN
+from resnet18                               import MyResNet18
 from stable_baselines3 import PPO
+from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.callbacks import CheckpointCallback
+import utils
 
 source_env = gym.make('CustomHopper-source-v0')
 target_env = gym.make('CustomHopper-target-v0')
+
 
 # print(source_env.observation_space)
 # Output is Box([-inf -inf -inf -inf -inf -inf -inf -inf -inf -inf -inf], [inf inf inf inf inf inf inf inf inf inf inf], (11,), float64)
@@ -28,32 +32,38 @@ source_pixel_env = PixelObservationWrapper(source_env)
 # The values of the observations are between 0 and 255, with 0 representing black and 255 representing white.
 # => This observation space represents a 500x500 pixel image.
 
+
 source_grayscale_env = Grayscale(source_pixel_env)
 # print(source_grayscale_env.observation_space)
 # The source_grayscale_env observation space is a Box object with shape (500, 500)
 # => This observation space is a 2D grayscale image with 500 rows and 500 columns
 
-source_resized_env = Resize(source_grayscale_env, 224, 224)
+source_resized_env = Resize(source_grayscale_env, 84, 84)
 # print(source_resized_env.observation_space)
-# The source_resized_env observation space is a Box object with shape (224, 224)
-# => This observation space is a 2D grayscale image with 224 rows and 224 columns
+# The source_resized_env observation space is a Box object with shape (64, 64)
+# => This observation space is a 2D grayscale image with 64 rows and 64 columns
+
+# import matplotlib.pyplot as plt
+# img, _, _, _ = source_resized_env.step(source_resized_env.action_space.sample())
+# plt.imshow(img, cmap="gray")
+# plt.show()
 
 source_frame_stack_env = StackFrames(source_resized_env, 4)
 # print(source_frame_stack_env.observation_space)
 # Creates an environment source_frame_stack_env that stacks 4 consecutive frames from the resized_env environment 
 # and returns the resulting 4-frame stack as a SINGLE observation
-# The source_frame_stack_env observation space is a Box object with shape (224, 224, 4)
+# The source_frame_stack_env observation space is a Box object with shape (64, 64, 4)
 # => This observation space is the result of stacking 4 grayscale frames of the resized environment
 
 source_pyTorch_env = ImageToPyTorch(source_frame_stack_env)
 # print(source_pyTorch_env.observation_space)
-# The source_pyTorch_env observation space is a Box object with shape (4, 224, 224)
+# The source_pyTorch_env observation space is a Box object with shape (4, 64, 64)
 # => This observation space is the same as source_frame_stack_env, but with inverted dimensions
 # from (height, width, channels) to (channels, height, width)
 
 target_pixel_env = PixelObservationWrapper(target_env)
 target_grayscale_env = Grayscale(target_pixel_env)
-target_resized_env = Resize(target_grayscale_env, 224, 224)
+target_resized_env = Resize(target_grayscale_env, 64, 64)
 target_frame_stack_env = StackFrames(target_resized_env, 4)
 target_pyTorch_env = ImageToPyTorch(target_frame_stack_env)
 
@@ -63,9 +73,12 @@ policy_kwargs = dict(
     features_extractor_kwargs=dict(features_dim = 128),
 )
 
-model = PPO("CnnPolicy", source_pyTorch_env, policy_kwargs = policy_kwargs, verbose = 1, batch_size = 32, learning_rate = 0.01)
-trained_model = model.learn(total_timesteps=1000000, progress_bar=True)
-trained_model.save(f"./training/models/Vision_100K_example")
+# policy_kwargs= dict(
+#     features_extractor_class=MyResNet18,
+#     features_extractor_kwargs=dict(features_dim=128),
+# )
 
-
-
+source_env.enable_uniform_domain_randomization(rand_proportion = 50)
+model = PPO("CnnPolicy", source_pyTorch_env, policy_kwargs = policy_kwargs, verbose = 1, batch_size = 32, learning_rate = 0.0001)
+trained_model = model.learn(total_timesteps=50000, progress_bar=True)
+trained_model.save(f"./training/models/Vision_500K_example")
