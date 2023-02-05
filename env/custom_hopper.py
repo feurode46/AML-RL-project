@@ -21,11 +21,14 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         self.__enable_udr       = False
         self.__rand_proportion  = None
         self.__mass_intervals   = []
+        self.__n_eps = 0
+        self.__n_eps_random = 1
 
         if domain == 'source':  # Source environment has an imprecise torso mass (1kg shift)
             self.sim.model.body_mass[1] -= 1.0
 
-    def enable_uniform_domain_randomization(self, rand_proportion: int = 50):
+    def enable_uniform_domain_randomization(self, rand_proportion: int = 50, rand_eps=1):
+        self.__n_eps_random = rand_eps
         self.__enable_udr       = True
         self.__rand_proportion  = rand_proportion
 
@@ -35,6 +38,7 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
     def set_random_parameters(self):
         """Set random masses"""
         self.set_parameters(self.sample_parameters())
+    
 
     def sample_parameters(self):
         """Sample masses according to a domain randomization distribution"""
@@ -91,8 +95,9 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
 
     def reset_model(self):
         """Reset the environment to a random initial state"""
+        self.__n_eps += 1
 
-        if (self.__enable_udr):
+        if (self.__enable_udr and (self.__n_eps % self.__n_eps_random == 0)):
             self.set_random_parameters()
 
         qpos = self.init_qpos + self.np_random.uniform(low=-.005, high=.005, size=self.model.nq)

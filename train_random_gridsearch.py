@@ -20,7 +20,7 @@ def train_and_test(model_name, total_timesteps, rand_proportion_vector, resultsf
         dest_path = os.path.join("training", "models", model_name + "_random_" + str(r) + "_.zip")
 
         source_env = gym.make('CustomHopper-source-v0')
-        source_env.enable_uniform_domain_randomization(rand_proportion = r)
+        source_env.enable_uniform_domain_randomization(rand_proportion = r, rand_eps=5)
         source_env = DummyVecEnv([lambda: source_env])
 
         model = PPO("MlpPolicy", source_env, verbose=1)
