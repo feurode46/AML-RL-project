@@ -1,0 +1,150 @@
+
+##### PPO_100k #####
+Source-Source environment results (rand_prop=30, rand_eps=1):
+(1113.2507572174072, 179.81892160963662)
+Source-Target environment results (rand_prop=30, rand_eps=1):
+(1327.5188832449912, 37.90692357995672)
+Source-Source environment results (rand_prop=30, rand_eps=5):
+(746.2598560786247, 99.39806355493309)
+Source-Target environment results (rand_prop=30, rand_eps=5):
+(725.0621899366379, 63.913053764089526)
+Source-Source environment results (rand_prop=30, rand_eps=10):
+(998.811371743679, 188.22523349336618)
+Source-Target environment results (rand_prop=30, rand_eps=10):
+(680.7988033556938, 112.4187701637149)
+Source-Source environment results (rand_prop=30, rand_eps=50):
+(1262.157333152294, 73.37178350500326)
+Source-Target environment results (rand_prop=30, rand_eps=50):
+(1281.8180376553535, 95.18024512730057)
+Source-Source environment results (rand_prop=50, rand_eps=1):
+(1154.2866081619263, 190.8296767234182)
+Source-Target environment results (rand_prop=50, rand_eps=1):
+(981.5602981090545, 2.3990701716780727)
+Source-Source environment results (rand_prop=50, rand_eps=5):
+(886.7262944698334, 229.55684997119155)
+Source-Target environment results (rand_prop=50, rand_eps=5):
+(754.6276012015343, 71.12316372645715)
+Source-Source environment results (rand_prop=50, rand_eps=10):
+(557.9529083657264, 51.886845184451886)
+Source-Target environment results (rand_prop=50, rand_eps=10):
+(540.9074197590351, 33.919489220475995)
+Source-Source environment results (rand_prop=50, rand_eps=50):
+(815.0956950068473, 267.335495436687)
+Source-Target environment results (rand_prop=50, rand_eps=50):
+(685.5760603618622, 71.81903840382468)
+Source-Source environment results (rand_prop=70, rand_eps=1):
+(779.3349836730957, 250.47768081344125)
+Source-Target environment results (rand_prop=70, rand_eps=1):
+(631.8092708826065, 43.59990586226355)
+Source-Source environment results (rand_prop=70, rand_eps=5):
+(945.9038114976883, 245.7676518880438)
+Source-Target environment results (rand_prop=70, rand_eps=5):
+(802.9258831882477, 41.91490147955825)
+Source-Source environment results (rand_prop=70, rand_eps=10):
+(957.129095184803, 303.9947520646605)
+Source-Target environment results (rand_prop=70, rand_eps=10):
+(1036.1815971517563, 12.248322156127212)
+Source-Source environment results (rand_prop=70, rand_eps=50):
+(1048.1287046587468, 6.401131846028347)
+Source-Target environment results (rand_prop=70, rand_eps=50):
+(683.8314625453949, 2.081468284854185)
+
+##### PPO_500k #####
+Source-Source environment results (rand_prop=30, rand_eps=1):
+(1610.7443271970749, 41.784642857109766)
+Source-Target environment results (rand_prop=30, rand_eps=1):
+(1640.4832789742948, 13.146356720733069)
+Source-Source environment results (rand_prop=30, rand_eps=5):
+(1367.036946425438, 202.81739347433495)
+Source-Target environment results (rand_prop=30, rand_eps=5):
+(826.3759782409668, 24.930263630714627)
+Source-Source environment results (rand_prop=30, rand_eps=10):
+(1578.276398305893, 46.27832529460301)
+Source-Target environment results (rand_prop=30, rand_eps=10):
+(1622.753946145773, 8.463497006069936)
+Source-Source environment results (rand_prop=30, rand_eps=50):
+(1139.4470857715608, 80.41526564339487)
+Source-Target environment results (rand_prop=30, rand_eps=50):
+(1001.5006656849384, 30.593200577959806)
+Source-Source environment results (rand_prop=50, rand_eps=1):
+(1498.9550038349628, 244.79078846409948)
+Source-Target environment results (rand_prop=50, rand_eps=1):
+(1143.0322878873349, 15.642664518384299)
+Source-Source environment results (rand_prop=50, rand_eps=5):
+(1295.7694256711006, 382.257259195858)
+Source-Target environment results (rand_prop=50, rand_eps=5):
+(695.7086521458626, 12.754588329633863)
+Source-Source environment results (rand_prop=50, rand_eps=10):
+(953.3841609501839, 114.59531590290094)
+Source-Target environment results (rand_prop=50, rand_eps=10):
+(898.3068614053726, 15.57077036408165)
+Source-Source environment results (rand_prop=50, rand_eps=50):
+(1067.159468767643, 75.67245891743559)
+Source-Target environment results (rand_prop=50, rand_eps=50):
+(1209.6906646347045, 87.97201590963431)
+Source-Source environment results (rand_prop=70, rand_eps=1):
+(1224.7646681141853, 395.5804548675279)
+Source-Target environment results (rand_prop=70, rand_eps=1):
+(975.219550936222, 2.878281409514076)
+Source-Source environment results (rand_prop=70, rand_eps=5):
+(1127.2653037118912, 292.6012640520583)
+Source-Target environment results (rand_prop=70, rand_eps=5):
+(795.4843069243431, 60.482914545941426)
+Source-Source environment results (rand_prop=70, rand_eps=10):
+(1189.938141541481, 294.1412639501825)
+Source-Target environment results (rand_prop=70, rand_eps=10):
+(1015.8745381605626, 59.2355935595623)
+Source-Source environment results (rand_prop=70, rand_eps=50):
+(1562.0632347679139, 190.06069879229315)
+Source-Target environment results (rand_prop=70, rand_eps=50):
+(997.5518621766568, 58.267925166802456)
+
+##### PPO_1M #####
+Source-Source environment results (rand_prop=30, rand_eps=1):
+(1454.1631300079823, 242.94102925065357)
+Source-Target environment results (rand_prop=30, rand_eps=1):
+(1582.8387062704562, 202.66296687823612)
+Source-Source environment results (rand_prop=30, rand_eps=5):
+(1334.8974814510345, 282.4842261413398)
+Source-Target environment results (rand_prop=30, rand_eps=5):
+(725.8067893147469, 31.5625761744008)
+Source-Source environment results (rand_prop=30, rand_eps=10):
+(384.6987792825699, 558.8490377961691)
+Source-Target environment results (rand_prop=30, rand_eps=10):
+(317.5345038342476, 252.14099992787152)
+Source-Source environment results (rand_prop=30, rand_eps=50):
+(1657.7364502120017, 25.377919284429396)
+Source-Target environment results (rand_prop=30, rand_eps=50):
+(706.2158170938492, 7.236141541140099)
+Source-Source environment results (rand_prop=50, rand_eps=1):
+(1388.1034959244728, 341.5682527557601)
+Source-Target environment results (rand_prop=50, rand_eps=1):
+(810.0107148218154, 21.210643622243285)
+Source-Source environment results (rand_prop=50, rand_eps=5):
+(1364.5417517137528, 280.8346850327281)
+Source-Target environment results (rand_prop=50, rand_eps=5):
+(999.435203089714, 18.2382826618112)
+Source-Source environment results (rand_prop=50, rand_eps=10):
+(1487.0120997941494, 257.69202335286207)
+Source-Target environment results (rand_prop=50, rand_eps=10):
+(990.0837883734703, 26.100747648341557)
+Source-Source environment results (rand_prop=50, rand_eps=50):
+(1220.538436551094, 232.69056662359105)
+Source-Target environment results (rand_prop=50, rand_eps=50):
+(811.86370241642, 12.52831549988288)
+Source-Source environment results (rand_prop=70, rand_eps=1):
+(1459.82990609169, 276.55653979487346)
+Source-Target environment results (rand_prop=70, rand_eps=1):
+(1220.871850953102, 158.1910563254004)
+Source-Source environment results (rand_prop=70, rand_eps=5):
+(1332.431264255047, 386.93658556910333)
+Source-Target environment results (rand_prop=70, rand_eps=5):
+(801.8975494122506, 39.42151175924513)
+Source-Source environment results (rand_prop=70, rand_eps=10):
+(1262.1828221273422, 311.87542075881976)
+Source-Target environment results (rand_prop=70, rand_eps=10):
+(1003.745027923584, 129.05380034904212)
+Source-Source environment results (rand_prop=70, rand_eps=50):
+(1808.2161906838417, 126.23349424177279)
+Source-Target environment results (rand_prop=70, rand_eps=50):
+(1115.3613281321525, 59.711261301719624)
