@@ -27,26 +27,26 @@ def main():
     print('Dynamics parameters:', target_env.get_parameters())  # masses of each link of the Hopper
     target_env = DummyVecEnv([lambda: target_env])
 
-    TRPO_path = os.path.join("training", "models", "TRPO_100k")  
-    TRPO_target_path = os.path.join("training", "models", "TRPO_TARGET_100k")  
+    TRPO_path = os.path.join("training", "models", "TRPO_500k")  
+    TRPO_target_path = os.path.join("training", "models", "TRPO_TARGET_500k")  
 
     print("--- TRAIN TRPO ON SOURCE ENVIRONMENT --- ")      
-    if os.path.exists("training/models/TRPO_100k.zip"):
+    if os.path.exists("training/models/TRPO_500k.zip"):
         print("Found source model!")
-        model = TRPO.load("training/models/TRPO_100k", env=env)
+        model = TRPO.load("training/models/TRPO_500k", env=env)
     else:
         print("source model file not found. training...")
         model = TRPO("MlpPolicy", env, verbose=1)
-        model.learn(total_timesteps=100000)
+        model.learn(total_timesteps=500000)
         model.save(TRPO_path)
     print("--- TRAIN TRPO ON TARGET ENVIRONMENT --- ")      
-    if os.path.exists("training/models/TRPO_TARGET_100k.zip"):
+    if os.path.exists("training/models/TRPO_TARGET_500k.zip"):
         print("Found target model!")
-        model_target = TRPO.load("training/models/TRPO_TARGET_100k", env=env)
+        model_target = TRPO.load("training/models/TRPO_TARGET_500k", env=env)
     else:
         print("target model file not found. training...")
         model_target = TRPO("MlpPolicy", target_env, verbose=1)
-        model_target.learn(total_timesteps=100000)
+        model_target.learn(total_timesteps=500000)
         model_target.save(TRPO_target_path)
 
 
