@@ -11,16 +11,9 @@ import os
 
 def main():
     env = gym.make('CustomHopper-source-v0')
-    print('State space:', env.observation_space)  # state-space
-    print('Action space:', env.action_space)  # action-space
-    print('Dynamics parameters:', env.get_parameters())  # masses of each link of the Hopper
-
-    # - train a policy with stable-baselines3 on source env
     env = DummyVecEnv([lambda: env])
+    
     target_env = gym.make('CustomHopper-target-v0')
-    print('State space:', target_env.observation_space)  # state-space
-    print('Action space:', target_env.action_space)  # action-space
-    print('Dynamics parameters:', target_env.get_parameters())  # masses of each link of the Hopper
     target_env = DummyVecEnv([lambda: target_env])
 
     # hyperparameter: learning rate

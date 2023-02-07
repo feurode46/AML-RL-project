@@ -1,8 +1,3 @@
-"""Sample script for training a control policy on the Hopper environment
-
-    Read the stable-baselines3 documentation and implement a training
-    pipeline with an RL algorithm of your choice between TRPO, PPO, and SAC.
-"""
 import gym
 from env.custom_hopper import *
 from stable_baselines3 import PPO
@@ -32,11 +27,6 @@ def main():
             while not done:  # Until the episode is over
                 action, _ = model.predict(state)
                 state, reward, done, info = env.step(action)  # Step the simulator to the next timestep
-
-                """Step 4: vision-based
-                img_state = env.render(mode="rgb_array", width=224, height=224)
-                """
-
                 if render:
                     env.render()
         env.close()

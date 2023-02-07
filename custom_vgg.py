@@ -4,9 +4,7 @@ from gym import spaces
 
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 
-# Example taken from https://stable-baselines3.readthedocs.io/en/master/guide/custom_policy.html
-
-class CustomCNN(BaseFeaturesExtractor):
+class CustomVGG(BaseFeaturesExtractor):
     """
     :param observation_space: (gym.Space)
     :param features_dim: (int) Number of features extracted.
@@ -26,15 +24,26 @@ class CustomCNN(BaseFeaturesExtractor):
         # Re-ordering will be done by pre-preprocessing or wrapper
         n_input_channels = observation_space.shape[0]
         self.cnn = nn.Sequential(
-            nn.Conv2d(n_input_channels, 32, kernel_size=8, stride=4, padding=0),
-            nn.ReLU(),  # nn.Tanh() ??
-            nn.MaxPool2d(kernel_size=2),
-            nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=0),
-            nn.ReLU(),  # nn.Tanh() ??
-            nn.MaxPool2d(kernel_size=2),
+            # modified version of a VGG
+            nn.Conv2d(n_input_channels, 64, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.Conv2d(256, 512, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
             nn.Flatten(),
         )
-
+        # Computes the size of the output of the cnn network, after the last Flatten layer, 
+        # by running a forward pass with a randomly generated sample from the observation space (observation_space.sample()). 
+        # The [None] indexing is to add an additional dimension of size 1, 
+        # so that the tensor has shape (1, ...) instead of just (...). 
+        # This is necessary for some PyTorch operations, including shape, that require a batch dimension.
         with th.no_grad():  # Preventing computation of gradients, as we don't need them for this single forward pass
             n_flatten = self.cnn(
                 th.as_tensor(observation_space.sample()[None]).float()

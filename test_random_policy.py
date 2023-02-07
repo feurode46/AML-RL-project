@@ -1,12 +1,4 @@
-"""Test a random policy on the Gym Hopper environment
-
-Play around with this code to get familiar with the
-Hopper environment.
-
-For example, what happens if you don't reset the environment
-even after the episode is over?
-When exactly is the episode over?
-What is an action here?
+"""Test a random policy on the Gym Hopper environment.
 """
 import gym
 from env.custom_hopper import *
@@ -32,10 +24,6 @@ def main():
             action = env.action_space.sample()  # Sample random action
 
             state, reward, done, info = env.step(action)  # Step the simulator to the next timestep
-
-            """Step 4: vision-based
-            img_state = env.render(mode="rgb_array", width=224, height=224)
-            """
 
             if render:
                 env.render()

@@ -6,11 +6,10 @@ from torchvision.models import resnet18
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 
 
-class MyResNet18(BaseFeaturesExtractor):
-
+class CustomResNet18(BaseFeaturesExtractor):
     def __init__(self, 
                     observation_space: spaces.Box, 
-                    features_dim: int = 256,
+                    features_dim: int = 128,
                     augmentation = False
                     ):
 
@@ -19,8 +18,8 @@ class MyResNet18(BaseFeaturesExtractor):
         self.augmentation = augmentation
         if augmentation:
             self.aug_trans = nn.Sequential(
-                nn.ReplicationPad2d(5),  # 84x84 --> 94x94
-                torchvision.transforms.RandomCrop(size=(84,84)) )  #Then crops it to 84x84 again
+                nn.ReplicationPad2d(5), # pad the image...
+                torchvision.transforms.RandomCrop(size=(224,224))) # ...then randomly crop it to fit
 
         n_input_channels = observation_space.shape[0]
         self.net = resnet18(weights=torchvision.models.ResNet18_Weights)
@@ -32,21 +31,6 @@ class MyResNet18(BaseFeaturesExtractor):
 
 
     def forward(self, observations: th.Tensor) -> th.Tensor:
-
-        x = observations  #SHAPE [4, 3, 84, 84]
-
-        # Code for iterative forward of 4 images
-        # preds = []
-        # for i in range(0, x.shape[1], 3): 
-        #     frame = x[:, i: i+2 +1 , :, :]
-        #     preds.append( self.net(frame) ) 
-
-        # preds = th.cat(preds, dim=1)
-        # return preds
-
-
-        # Data Augmentation (DA)
-        # x = self.aug_trans(x)
-        
+        x = observations
         x = self.net(x)
         return x
