@@ -10,7 +10,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.evaluation import evaluate_policy
 import os
 
-model_name = "er_mejo"
+model_name = "PPO_vision_based_UDR_100k"
 
 def main():
     env = gym.make('CustomHopper-source-v0')
