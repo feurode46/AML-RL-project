@@ -54,12 +54,8 @@ source_frame_stack_env = StackFrames(source_resized_env, 12)
 # => This observation space is the result of stacking 4 grayscale frames of the resized environment
 
 import matplotlib.pyplot as plt
-source_frame_stack_env.reset()
-img, _, _, _ = source_frame_stack_env.step(source_frame_stack_env.action_space.sample())
-plt.imshow(img, cmap="gray")
-plt.show()
-
 source_pyTorch_env = ImageToPyTorch(source_frame_stack_env)
+
 # print(source_pyTorch_env.observation_space)
 # The source_pyTorch_env observation space is a Box object with shape (4, 64, 64)
 # => This observation space is the same as source_frame_stack_env, but with inverted dimensions

@@ -8,8 +8,6 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.evaluation import evaluate_policy
 import os
-import utils
-
 
 
 def train_and_test(model_name, total_timesteps, rand_proportion_vector, eps_vector, resultsfile):
