@@ -9,7 +9,7 @@ from garage_wrappers.pytorch_observation    import ImageToPyTorch
 from custom_cnn                             import CustomCNN
 from custom_vgg                             import CustomVGG
 from custom_resnet18                        import CustomResNet18
-from stable_baselines3 import PPO
+from stable_baselines3 import PPO, TRPO
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.callbacks import CheckpointCallback
 
