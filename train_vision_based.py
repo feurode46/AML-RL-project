@@ -34,6 +34,7 @@ source_pixel_env = PixelObservationWrapper(source_env)
 # => This observation space represents a 500x500 pixel image.
 
 
+
 source_grayscale_env = Grayscale(source_pixel_env)
 # print(source_grayscale_env.observation_space)
 # The source_grayscale_env observation space is a Box object with shape (500, 500)
@@ -44,10 +45,6 @@ source_resized_env = Resize(source_grayscale_env, 224, 224)
 # The source_resized_env observation space is a Box object with shape (64, 64)
 # => This observation space is a 2D grayscale image with 64 rows and 64 columns
 
-# import matplotlib.pyplot as plt
-# img, _, _, _ = source_resized_env.step(source_resized_env.action_space.sample())
-# plt.imshow(img, cmap="gray")
-# plt.show()
 # source_frameskip_env = MaxAndSkip(source_resized_env, skip=2)
 source_frame_stack_env = StackFrames(source_resized_env, 12)
 # print(source_frame_stack_env.observation_space)
@@ -55,6 +52,12 @@ source_frame_stack_env = StackFrames(source_resized_env, 12)
 # and returns the resulting 4-frame stack as a SINGLE observation
 # The source_frame_stack_env observation space is a Box object with shape (64, 64, 4)
 # => This observation space is the result of stacking 4 grayscale frames of the resized environment
+
+import matplotlib.pyplot as plt
+source_frame_stack_env.reset()
+img, _, _, _ = source_frame_stack_env.step(source_frame_stack_env.action_space.sample())
+plt.imshow(img, cmap="gray")
+plt.show()
 
 source_pyTorch_env = ImageToPyTorch(source_frame_stack_env)
 # print(source_pyTorch_env.observation_space)
@@ -80,6 +83,6 @@ policy_kwargs = dict(
 # )
 
 source_env.enable_uniform_domain_randomization(rand_proportion = 30)
-model = PPO("CnnPolicy", source_pyTorch_env, policy_kwargs = policy_kwargs, verbose = 1, batch_size = 32, learning_rate = 0.0003)
+model = TRPO("CnnPolicy", source_pyTorch_env, policy_kwargs = policy_kwargs, verbose = 1, batch_size = 32, learning_rate = 0.0003)
 trained_model = model.learn(total_timesteps=100000, progress_bar=True)
 trained_model.save(f"./training/models/vision_cnn_noskip")

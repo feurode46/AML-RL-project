@@ -46,12 +46,16 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         if len(self.__mass_intervals) == 0:
             i = 0
             for mass in self.original_masses[1:]:
+
                 lower_bound = mass-(mass*self.__rand_proportion/100)
                 upper_bound = mass+(mass*self.__rand_proportion/100)
-                print(f"Range for mass {i+1}: [{lower_bound:.3f}, {upper_bound:.3f})")
-                i += 1
+
+                print(f"Range for mass {i+1} -> [{lower_bound:.3f}, {upper_bound:.3f})")
+
                 interval = [lower_bound, upper_bound]
                 self.__mass_intervals.append(interval)
+                
+                i += 1
 
         masses = [np.random.uniform(interval[0], interval[1]) for interval in self.__mass_intervals]
         return masses
