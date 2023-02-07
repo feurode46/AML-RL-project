@@ -38,7 +38,7 @@ def main():
         else:
             print("source model file not found. training...")
             model = PPO("MlpPolicy", env, verbose=1, learning_rate=lr)
-            model.learn(total_timesteps=500000)
+            model.learn(total_timesteps=500000, progress_bar = True)
             model.save(PPO_path)
         print(f"--- TRAIN PPO ON TARGET ENVIRONMENT (Learning Rate = {lr})--- ")      
         if os.path.exists(f"training/models/PPO/TARGET_LR{i}.zip"):
@@ -47,7 +47,7 @@ def main():
         else:
             print("target model file not found. training...")
             model_target = PPO("MlpPolicy", target_env, verbose=1, learning_rate=lr)
-            model_target.learn(total_timesteps=500000)
+            model_target.learn(total_timesteps=500000, progress_bar=True)
             model_target.save(PPO_target_path)
 
 
@@ -61,7 +61,7 @@ def main():
         print(evaluate_policy(model_target, target_env, n_eval_episodes=50, render=False))
         i+=1
 
-    env.close()
+        env.close()
 
 if __name__ == '__main__':
     main()
